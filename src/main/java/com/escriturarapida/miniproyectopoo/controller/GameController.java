@@ -12,6 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import javafx.application.Platform;
+import javafx.animation.TranslateTransition;
+import javafx.scene.Node;
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 
 /**
  * Controller for the Fast Typing Game user interface.
@@ -117,6 +121,51 @@ public class GameController {
     }
 
     /**
+     * It makes the text box shake when the player makes a mistake
+     */
+    private void shakeNode(Node node) {
+        TranslateTransition tt = new TranslateTransition(Duration.millis(50), node);
+        tt.setFromX(0);
+        tt.setByX(10);
+        tt.setCycleCount(6);
+        tt.setAutoReverse(true);
+        tt.play();
+    }
+
+    /**
+     *  It makes the text appear smoothly when the word is guessed correctly.
+     */
+    private void fadeMessage(Node node) {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), node);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        ft.play();
+    }
+
+    /**
+     * It makes the text box temporarily change color to indicate whether the word was correct or incorrect.
+     */
+    private void highlightInput(TextField field, String color) {
+
+        /**
+         * Save the original Style
+         */
+        String originalStyle = field.getStyle();
+
+        /**
+         * Apply a temporary color and border width
+         */
+        field.setStyle("-fx-border-color: " + color + ";" + "-fx-border-width: 2px;");
+
+        /**
+         * Wait 0.2 seconds and restore original
+         */
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
+        pause.setOnFinished(e -> field.setStyle(originalStyle));
+        pause.play();
+    }
+
+    /**
      * Handles the validation button action.
      *
      * This method compares the text entered by the player with the
@@ -138,8 +187,10 @@ public class GameController {
 
         if (correct) {
             messageLabel.setText("¡Correcto!");
-            messageLabel.setStyle("-fx-text-fill: green;");
-
+            messageLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+            highlightInput(inputTextField, "green");
+            fadeMessage(messageLabel);
+            fadeMessage(targetTextLabel);
             game.advanceLevel();
 
             if (game.getCompletedLevels() >= MAX_LEVEL) {
@@ -149,7 +200,10 @@ public class GameController {
             startNewRound();
         } else {
             messageLabel.setText("¡Incorrecto!");
-            messageLabel.setStyle("-fx-text-fill: red;");
+            messageLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+            highlightInput(inputTextField, "red");
+            shakeNode(inputTextField);
+            shakeNode(targetTextLabel);
             finishGame("Te equivocaste!");
         }
     }
@@ -180,7 +234,7 @@ public class GameController {
      */
     private void startNewRound() {
         game.setCurrentText(wordRepository.getRandomText());
-        levelLabel.setText("Nivel: " + game.getCurrentLevel());
+        levelLabel.setText("\uD83C\uDFC6 Nivel: " + game.getCurrentLevel());
         targetTextLabel.setText(game.getCurrentText());
         inputTextField.clear();
         inputTextField.requestFocus();
@@ -206,7 +260,7 @@ public class GameController {
             if (remainingSeconds <= 0) {
                 stopTimer();
                 messageLabel.setText("Tiempo Agotado");
-                messageLabel.setStyle("-fx-text-fill: red;");
+                messageLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
                 Platform.runLater(() ->
                         finishGame("Se te acabo el tiempo!"));
             }
@@ -230,7 +284,7 @@ public class GameController {
      * The text color changes depending on the remaining time.
      */
     private void updateTimerLabel() {
-        timerLabel.setText("Tiempo: " + remainingSeconds + " s");
+        timerLabel.setText("⏱ Tiempo: " + remainingSeconds + " s");
 
         if (remainingSeconds <= 5) {
             timerLabel.setStyle("-fx-text-fill: red;");
