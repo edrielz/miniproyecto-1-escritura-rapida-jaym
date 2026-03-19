@@ -1,14 +1,47 @@
 package com.escriturarapida.miniproyectopoo.model;
 
 /**
- * Represents the game state and rules for the Fast Typing game.
+ * Represents the core game logic and state for the Fast Typing Game.
+ *
+ * This class is responsible for managing the internal state of the game,
+ * including the current level, the number of completed levels, the time
+ * limit for each round, and whether the game has finished.
+ *
+ * The difficulty of the game increases progressively. Every five completed
+ * levels the time limit is reduced, making the game more challenging for the
+ * player.
+ *
+ * This class does not interact with the user interface directly.
+ * Instead, it is used by the controller layer to manage the game rules.
+ *
+ * @author Abrahan Ybañez 2418114-3743
+ * @version 1.0
  */
 public class Game {
 
+    /**
+     * Current level the player is attempting.
+     */
     private int currentLevel;
+
+    /**
+     * Total number of successfully completed levels.
+     */
     private int completedLevels;
+
+    /**
+     * Time limit (in seconds) allowed to complete the current level.
+     */
     private int currentTimeLimit;
+
+    /**
+     * Text that the player must type during the current round.
+     */
     private String currentText;
+
+    /**
+     * Indicates whether the game has ended.
+     */
     private boolean gameOver;
 
     /**
@@ -20,6 +53,10 @@ public class Game {
 
     /**
      * Resets the whole game to its initial state.
+     *
+     * This method restores all attributes to their default values:
+     * level 1, zero completed levels, the initial time limit,
+     * an empty target text, and the game marked as active.
      */
     public void reset() {
         this.currentLevel = 1;
@@ -30,16 +67,22 @@ public class Game {
     }
 
     /**
-     * Sets the target text for the current level.
+     * Sets the target text that the player must type in the current round.
      *
-     * @param currentText text the player must type
+     * @param currentText the text that must be typed by the player
      */
     public void setCurrentText(String currentText) {
         this.currentText = currentText;
     }
 
     /**
-     * Processes a successful answer and moves to the next level.
+     * Advances the game to the next level after a successful attempt.
+     *
+     * This method increments the number of completed levels and the
+     * current level. Additionally, every five completed levels the
+     * available time is reduced to increase the difficulty of the game.
+     *
+     * The minimum allowed time limit is 2 seconds.
      */
     public void advanceLevel() {
         completedLevels++;
@@ -58,7 +101,7 @@ public class Game {
     }
 
     /**
-     * Returns the current level.
+     * Returns the current level of the game.
      *
      * @return current level number
      */
@@ -67,7 +110,7 @@ public class Game {
     }
 
     /**
-     * Returns the amount of completed levels.
+     * Returns the amount of completed levels by the player.
      *
      * @return completed levels
      */
@@ -76,18 +119,18 @@ public class Game {
     }
 
     /**
-     * Returns the current time limit in seconds.
+     * Returns the current time limit for the level.
      *
-     * @return current time limit
+     * @return current time limit in seconds
      */
     public int getCurrentTimeLimit() {
         return currentTimeLimit;
     }
 
     /**
-     * Returns the current target text.
+     * Returns the target text for the current round.
      *
-     * @return current target text
+     * @return the text the player must type
      */
     public String getCurrentText() {
         return currentText;

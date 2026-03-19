@@ -5,6 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Main entry point for the Fast Typing Game application.
+ *
+ * This class launches the JavaFX application.
+ * @author Abrahan Ybañez 2418114-3743
+ * @version 1.0
+ */
 public class MainApp extends Application {
 
     @Override
