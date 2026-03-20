@@ -2,19 +2,34 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml" fx:controller="com.escriturarapida.miniproyectopoo.controller.MainMenuController">
-      <Label text="ESCRITURA RAPIDA">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="55.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.escriturarapida.miniproyectopoo.controller.MainMenuController">
+      <Label alignment="TOP_CENTER" contentDisplay="TOP" prefHeight="37.0" prefWidth="375.0" text="ESCRITURA RAPIDA" textFill="#013d79">
          <font>
-            <Font name="System Bold" size="26.0" />
+            <Font name="System Bold" size="40.0" />
          </font>
       </Label>
-       <Button text="Jugar" onAction="#handleStart"/>
-       <Button text="Salir" onAction="#handleExit"/>
+   <VBox alignment="CENTER" spacing="15.0">
+             <Button onAction="#handleStart" prefHeight="38.0" prefWidth="161.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Jugar">
+            <font>
+               <Font name="System Bold" size="20.0" />
+            </font>
+            <effect>
+               <Glow />
+            </effect>
+         </Button>
+             <Button onAction="#handleExit" prefHeight="25.0" prefWidth="161.0" text="Salir" textAlignment="CENTER">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font>
+         </Button>
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+   </VBox>
    <padding>
       <Insets top="10.0" />
    </padding>
