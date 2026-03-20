@@ -2,15 +2,15 @@ package com.escriturarapida.miniproyectopoo.model;
 
 /**
  * Represents the core game logic and state for the Fast Typing Game.
- *
+ * <p>
  * This class is responsible for managing the internal state of the game,
  * including the current level, the number of completed levels, the time
  * limit for each round, and whether the game has finished.
- *
+ * <p>
  * The difficulty of the game increases progressively. Every five completed
  * levels the time limit is reduced, making the game more challenging for the
  * player.
- *
+ * <p>
  * This class does not interact with the user interface directly.
  * Instead, it is used by the controller layer to manage the game rules.
  *
@@ -53,7 +53,7 @@ public class Game {
 
     /**
      * Resets the whole game to its initial state.
-     *
+     * <p>
      * This method restores all attributes to their default values:
      * level 1, zero completed levels, the initial time limit,
      * an empty target text, and the game marked as active.
@@ -77,11 +77,11 @@ public class Game {
 
     /**
      * Advances the game to the next level after a successful attempt.
-     *
+     * <p>
      * This method increments the number of completed levels and the
      * current level. Additionally, every five completed levels the
      * available time is reduced to increase the difficulty of the game.
-     *
+     * <p>
      * The minimum allowed time limit is 2 seconds.
      */
     public void advanceLevel() {

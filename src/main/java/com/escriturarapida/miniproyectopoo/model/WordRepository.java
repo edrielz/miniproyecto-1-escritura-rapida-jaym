@@ -5,15 +5,15 @@ import java.util.Random;
 
 /**
  * Repository that provides words and phrases used in the Fast Typing Game.
- *
+ * <p>
  * This class stores a predefined collection of words and short phrases
  * that can be selected randomly during the game. These texts represent
  * the target strings that the player must type correctly in each round.
- *
+ * <p>
  * The repository is intentionally simple and keeps all texts in memory.
  * A Random generator is used to select a random entry from the list
  * whenever the controller requests a new target text.
- *
+ * <p>
  * This class acts as a data provider and does not contain game logic.
  * Its only responsibility is to supply random texts for each round.
  *
@@ -34,7 +34,7 @@ public class WordRepository {
 
     /**
      * Creates a new repository containing predefined words and phrases.
-     *
+     * <p>
      * The texts include simple words, short phrases, and programming-related
      * terms to increase variety and difficulty during the game.
      */
@@ -98,7 +98,7 @@ public class WordRepository {
 
     /**
      * Returns a random word or phrase from the repository.
-     *
+     * <p>
      * This method selects a random index from the list of texts
      * and returns the corresponding entry. The result is used as
      * the target text that the player must type during a game round.

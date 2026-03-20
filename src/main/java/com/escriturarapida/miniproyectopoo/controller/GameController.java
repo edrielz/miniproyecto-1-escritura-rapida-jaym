@@ -6,7 +6,6 @@ import com.escriturarapida.miniproyectopoo.util.Validator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,20 +15,24 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * Controller for the Fast Typing Game user interface.
- *
+ * <p>
  * This class is responsible for managing the interaction between the
  * JavaFX graphical user interface and the game logic.
- *
+ * <p>
  * Main responsibilities include:
  *     Initializing the game and UI components
  *     Handling user input validation
  *     Managing the round timer
  *     Updating UI elements such as labels and buttons
  *     Handling game restart and gameover states
- *
+ * <p>
  * The controller uses a Timeline to implement a countdown timer
  * for each round of the game.
  *
@@ -108,7 +111,7 @@ public class GameController {
 
     /**
      * Initializes the controller after the FXML file has been loaded.
-     *
+     * <p>
      * This method creates the game instance, loads the word repository,
      * disables the restart button, and starts the first round.
      */
@@ -147,19 +150,10 @@ public class GameController {
      */
     private void highlightInput(TextField field, String color) {
 
-        /**
-         * Save the original Style
-         */
         String originalStyle = field.getStyle();
 
-        /**
-         * Apply a temporary color and border width
-         */
         field.setStyle("-fx-border-color: " + color + ";" + "-fx-border-width: 2px;");
 
-        /**
-         * Wait 0.2 seconds and restore original
-         */
         PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
         pause.setOnFinished(e -> field.setStyle(originalStyle));
         pause.play();
@@ -167,11 +161,11 @@ public class GameController {
 
     /**
      * Handles the validation button action.
-     *
+     * <p>
      * This method compares the text entered by the player with the
      * target text. If the text matches exactly, the player advances
      * to the next level. Otherwise, the game ends.
-     *
+     * <p>
      * If the maximum level is reached, the game is completed successfully.
      */
     @FXML
@@ -210,7 +204,7 @@ public class GameController {
 
     /**
      * Handles the restart button action.
-     *
+     * <p>
      * This method resets the game state, enables user input again,
      * disables the restart button, and starts a new game from level one.
      */
@@ -227,7 +221,7 @@ public class GameController {
 
     /**
      * Starts a new round of the game.
-     *
+     * <p>
      * This method selects a random text from the repository,
      * updates the level label, clears the input field,
      * and starts the countdown timer.
@@ -246,7 +240,7 @@ public class GameController {
 
     /**
      * Starts the countdown timer for the current round.
-     *
+     * <p>
      * The timer decreases the remaining seconds every second.
      * If the time reaches zero, the game ends automatically.
      */
@@ -298,29 +292,44 @@ public class GameController {
     }
 
     /**
-     * Ends the current game and displays a summary dialog.
-     *
+     * Ends the current game and displays a summary dialog in a new stage.
+     * <p>
      * The dialog shows the reason why the game ended,
      * the number of completed levels, the level reached,
      * and the remaining time.
      *
      * @param reason the reason why the game ended
      */
+
     private void finishGame(String reason) {
+
         game.endGame();
         inputTextField.setDisable(true);
         validateButton.setDisable(true);
         restartButton.setDisable(false);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Resumen del Juego");
-        alert.setHeaderText("Juego Terminado");
-        alert.setContentText(
-                "Reason: " + reason + "\n" +
-                        "Niveles Completados: " + game.getCompletedLevels() + "\n" +
-                        "Nivel Alcanzado: " + game.getCurrentLevel() + "\n" +
-                        "Tiempo Restante: " + remainingSeconds + " s"
-        );
-        alert.showAndWait();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/escriturarapida/miniproyectopoo/game-over-view.fxml"));
+            Parent root = loader.load();
+
+            GameOverController controller = loader.getController();
+            controller.setData(
+                    reason,
+                    game.getCompletedLevels(),
+                    game.getCurrentLevel(),
+                    remainingSeconds
+            );
+
+            controller.setOnRestart(this::handleRestart);
+
+            Stage stage = new Stage();
+            stage.setTitle("Resumen del Juego");
+            stage.setScene(new Scene(root));
+            stage.show();
+            controller.setGameStage((Stage) inputTextField.getScene().getWindow());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

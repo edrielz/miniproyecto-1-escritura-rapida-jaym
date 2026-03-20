@@ -6,7 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="420.0" prefWidth="520.0" spacing="20.0" style="-fx-background-color: F5F5F5; -fx-border-color: #DCDCDC;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.escriturarapida.miniproyectopoo.controller.GameController">
+<VBox alignment="CENTER" prefHeight="420.0" prefWidth="520.0" spacing="20.0" style="-fx-background-color: F5F5F5; -fx-border-color: #DCDCDC;"
+      xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.escriturarapida.miniproyectopoo.controller.GameController">
 
     <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -45,5 +48,5 @@
         <Button fx:id="restartButton" onAction="#handleRestart" text="Reiniciar" />
     </HBox>
 
-    <Label fx:id="messageLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="" />
+    <Label fx:id="messageLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 </VBox>
